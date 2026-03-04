@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "dev": "cd expo-app && npm start",
+    "web": "cd expo-app && npm run web"
+  },
   "dependencies": {
     "expo": "^54.0.33",
     "react-dom": "19.1.0",

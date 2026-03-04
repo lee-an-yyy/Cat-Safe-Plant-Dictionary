@@ -10,6 +10,11 @@ npm i
 npm start
 ```
 
+Or from project root:
+```bash
+npm run dev
+```
+
 ## Development
 
 - **Lint**: `npm run lint` — Run ESLint

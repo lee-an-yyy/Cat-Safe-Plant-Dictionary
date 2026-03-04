@@ -1,8 +1,8 @@
 {
-  "buildCommand": "npm ci && npx expo export --platform web",
-  "outputDirectory": "expo-app/dist",
   "rootDirectory": "expo-app",
+  "buildCommand": "npx expo export --platform web",
+  "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
