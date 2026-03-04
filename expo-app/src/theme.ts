@@ -1,0 +1,32 @@
+/** 앱 전역 폰트 (App.tsx에서 useFonts로 로드한 이름과 동일해야 함) */
+export const FONT_FAMILY = 'IBM-Regular';
+
+/** 앱 전역 색상 */
+export const colors = {
+  // Primary
+  primary: '#27AE60',
+
+  // Danger
+  danger: '#E74C3C',
+  dangerDark: '#C62828',
+
+  // Neutral
+  gray50: '#F9FAFB',
+  gray100: '#F3F4F6',
+  gray200: '#E5E7EB',
+  gray400: '#9CA3AF',
+  gray500: '#6B7280',
+  gray600: '#4B5563',
+  gray700: '#374151',
+  gray900: '#111827',
+
+  // Semantic
+  white: '#fff',
+} as const;
+
+/** AsyncStorage 키 */
+export const STORAGE_KEYS = {
+  DISCLAIMER_AGREED: 'DISCLAIMER_AGREED',
+  SAVED_PLANTS: 'savedPlants',
+  SHOW_ENGLISH_ORIGINAL: 'showEnglishOriginal',
+} as const;
