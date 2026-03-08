@@ -5638,33 +5638,52 @@
   {
     "id": "tradescantia_fluminensis",
     "scientificName": "Tradescantia fluminensis",
+    "type": "species",
     "namesKo": [
+      "얼룩자주달개비",
+      "무늬달개비",
       "얼룩닭의장풀",
-      "트라데스칸티아"
+      "트라데스칸티아",
+      "인치플랜트",
+      "인치식물"
     ],
     "namesEn": [
-      "Giant White Inch Plant"
+      "Giant White Inch Plant",
+      "Inch Plant",
+      "Speedy Henry",
+      "Variegated Inch Plant",
+      "Variegated Laurel"
     ],
-    "isToxic": false,
+    "isToxic": true,
     "isCritical": false,
-    "clinicalSigns": "기본적으로 독성이 없으나, 다량 섭취 시 잎의 옥살산 성분으로 인한 가벼운 위장 장애 유발 가능",
-    "keywords": [
-      "흰꽃자주달개비",
-      "Albiflora",
-      "Albiflora spp.",
-      "트라데스칸티아",
-      "Giant White Inch Plant"
+    "symptoms": [
+      "피부 염증",
+      "위장 장애"
     ],
-    "type": "genus",
-    "symptoms": [],
-    "wikimediaImageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Tradescantia_fluminensis_1.jpg",
-    "imageAuthor": "Forest & Kim Starr",
-    "imageSourceUrl": "https://commons.wikimedia.org/wiki/File:Tradescantia_fluminensis_1.jpg",
-    "imageLicense": "CC BY 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "clinicalSigns": "수액 접촉 시 피부 염증(Dermatitis)을 유발할 수 있으며, 다량 섭취 시 잎의 옥살산 성분으로 인해 가벼운 위장 장애가 발생할 수 있습니다.",
+    "keywords": [
+      "얼룩자주달개비",
+      "무늬달개비",
+      "얼룩닭의장풀",
+      "트라데스칸티아",
+      "인치플랜트",
+      "Giant White Inch Plant",
+      "Inch Plant",
+      "Speedy Henry",
+      "Tradescantia fluminensis"
+    ],
+    "parentInfo": {
+      "name": "Tradescantia 속",
+      "isToxic": true
+    },
+    "wikimediaImageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Tradescantia_fluminensis_Flower_1.jpg",
+    "imageAuthor": "Enrique Dans from Madrid, Spain",
+    "imageSourceUrl": "https://commons.wikimedia.org/wiki/File:Tradescantia_fluminensis_Flower_1.jpg",
+    "imageLicense": "CC BY 2.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0/",
     "hasWikimediaImage": true,
-    "clinicalSignsFormatted": "기본적으로 독성이 없으나, 다량 섭취 시 잎의 옥살산 성분으로 인한 가벼운 위장 장애 유발 가능",
-    "clinicalSignsEn": "",
+    "clinicalSignsFormatted": "피부 염증, 가벼운 위장 장애",
+    "clinicalSignsEn": "Dermatitis",
     "imageSearchName": "Tradescantia fluminensis"
   },
   {
@@ -16622,54 +16641,6 @@
     "hasWikimediaImage": true,
     "clinicalSignsFormatted": "이 식물은 고양이에게 독성이 없는 것으로 알려져 있습니다.",
     "clinicalSignsEn": "."
-  },
-  {
-    "id": "tradescantia_fluminensis",
-    "scientificName": "Tradescantia fluminensis",
-    "namesKo": [
-      "트라데스칸티아",
-      "인치플랜트",
-      "인치식물"
-    ],
-    "namesEn": [
-      "speedy henry",
-      "Inch Plant",
-      "Speedy Henry",
-      "Variegated Inch Plant",
-      "Variegated Laurel"
-    ],
-    "isToxic": true,
-    "isCritical": false,
-    "clinicalSigns": "피부 염증",
-    "keywords": [
-      "Tradescantia fluminensis",
-      "speedy henry",
-      "인치플랜트",
-      "Variegated Laurel",
-      "Tradescantia",
-      "Variegated Inch Plant",
-      "Speedy Henry",
-      "인치식물",
-      "Tradescantia 속",
-      "트라데스칸티아",
-      "Inch Plant"
-    ],
-    "type": "species",
-    "parentInfo": {
-      "name": "Tradescantia 속",
-      "isToxic": true
-    },
-    "symptoms": [
-      "피부 염증"
-    ],
-    "wikimediaImageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Tradescantia_fluminensis_Flower_1.jpg",
-    "imageAuthor": "Enrique Dans from Madrid, Spain",
-    "imageSourceUrl": "https://commons.wikimedia.org/wiki/File:Tradescantia_fluminensis_Flower_1.jpg",
-    "imageLicense": "CC BY 2.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0",
-    "hasWikimediaImage": true,
-    "clinicalSignsFormatted": "피부 염증",
-    "clinicalSignsEn": "Dermatitis"
   },
   {
     "id": "tropaeolum_majus",
