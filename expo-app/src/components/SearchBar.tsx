@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Pressable, TextInput, StyleSheet, ViewStyle } from 'react-native';
-import { Search } from 'lucide-react-native';
+import { Search, X } from 'lucide-react-native';
 
 import { AppText } from './AppText';
 import { FONT_FAMILY } from '../theme';
@@ -18,6 +18,8 @@ export interface SearchBarInputProps {
   value: string;
   onChangeText: (text: string) => void;
   inputRef?: React.Ref<TextInput>;
+  onFocus?: () => void;
+  onBlur?: () => void;
   style?: ViewStyle;
 }
 
@@ -32,14 +34,27 @@ export function SearchBar(props: SearchBarProps) {
       {variant === 'pressable' ? (
         <AppText style={styles.placeholder}>{placeholder}</AppText>
       ) : (
-        <TextInput
-          ref={props.inputRef}
-          style={styles.input}
-          placeholder={placeholder}
-          placeholderTextColor="#9CA3AF"
-          value={props.value}
-          onChangeText={props.onChangeText}
-        />
+        <>
+          <TextInput
+            ref={props.inputRef}
+            style={styles.input}
+            placeholder={placeholder}
+            placeholderTextColor="#9CA3AF"
+            value={props.value}
+            onChangeText={props.onChangeText}
+            onFocus={props.onFocus}
+            onBlur={props.onBlur}
+          />
+          {props.value.length > 0 && (
+            <Pressable
+              onPress={() => props.onChangeText('')}
+              hitSlop={8}
+              style={styles.clearButton}
+            >
+              <X size={18} color="#9CA3AF" />
+            </Pressable>
+          )}
+        </>
       )}
     </>
   );
@@ -71,5 +86,9 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     fontSize: 16,
     fontFamily: FONT_FAMILY,
+  },
+  clearButton: {
+    padding: 4,
+    marginLeft: 4,
   },
 });

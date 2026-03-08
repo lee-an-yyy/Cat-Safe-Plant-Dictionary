@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, BookOpen, Bookmark, MoreHorizontal } from 'lucide-react-native';
+import { Home, Bookmark, MoreHorizontal } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { FONT_FAMILY, STORAGE_KEYS, colors } from '../theme';
@@ -9,12 +9,10 @@ import type {
   RootStackParamList,
   MainTabParamList,
   HomeStackParamList,
-  DictionaryStackParamList,
   SavedStackParamList,
 } from './types';
 import { OnboardingDisclaimerScreen } from '../screens/OnboardingDisclaimerScreen';
 import { HomeScreen } from '../screens/HomeScreen';
-import { PlantListScreen } from '../screens/PlantListScreen';
 import { PlantDetailScreen } from '../screens/PlantDetailScreen';
 import { SavedScreen } from '../screens/SavedScreen';
 import { MoreScreen } from '../screens/MoreScreen';
@@ -28,7 +26,6 @@ import { OpenSourceLicenseScreen } from '../screens/OpenSourceLicenseScreen';
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
 const HomeStackNav = createNativeStackNavigator<HomeStackParamList>();
-const DictionaryStackNav = createNativeStackNavigator<DictionaryStackParamList>();
 const SavedStackNav = createNativeStackNavigator<SavedStackParamList>();
 
 const stackScreenOptions = { headerShown: false };
@@ -39,15 +36,6 @@ function HomeStack() {
       <HomeStackNav.Screen name="HomeScreen" component={HomeScreen} />
       <HomeStackNav.Screen name="PlantDetail" component={PlantDetailScreen} />
     </HomeStackNav.Navigator>
-  );
-}
-
-function DictionaryStack() {
-  return (
-    <DictionaryStackNav.Navigator screenOptions={stackScreenOptions}>
-      <DictionaryStackNav.Screen name="PlantList" component={PlantListScreen} />
-      <DictionaryStackNav.Screen name="PlantDetail" component={PlantDetailScreen} />
-    </DictionaryStackNav.Navigator>
   );
 }
 
@@ -78,22 +66,11 @@ function MainTabs() {
           tabBarLabel: '홈',
           tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
         }}
-      />
-      <Tab.Screen
-        name="Dictionary"
-        component={DictionaryStack}
-        options={{
-          tabBarLabel: '사전',
-          tabBarIcon: ({ color, size }) => <BookOpen size={size} color={color} />,
-        }}
         listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            navigation.navigate('Dictionary', {
-              state: {
-                index: 0,
-                routes: [{ name: 'PlantList', params: { reset: true } }],
-              },
+          tabPress: () => {
+            navigation.navigate('Home', {
+              screen: 'HomeScreen',
+              params: { resetSearch: true },
             });
           },
         })}

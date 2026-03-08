@@ -19,9 +19,9 @@ import { AppText } from '../components/AppText';
 import { AppBar } from '../components/AppBar';
 import { useSavedPlants } from '../context/SavedPlantsContext';
 import { useEnglishOriginalPreference } from '../context/EnglishOriginalPreferenceContext';
-import type { DictionaryStackParamList } from '../navigation/types';
+import type { HomeStackParamList } from '../navigation/types';
 
-type PlantDetailRouteProp = RouteProp<DictionaryStackParamList, 'PlantDetail'>;
+type PlantDetailRouteProp = RouteProp<HomeStackParamList, 'PlantDetail'>;
 
 function getPlantsByGenus(genus: string) {
   const g = genus.trim().toLowerCase();

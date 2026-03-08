@@ -1,25 +1,15 @@
 export type PlantDetailParams = { plantId?: string; genus?: string };
 
-export type DictionaryStackParamList = {
-  PlantList: { status?: 'safe' | 'danger'; genus?: string; reset?: boolean };
-  PlantDetail: PlantDetailParams;
-};
-
 export type MainTabParamList = {
-  Home: undefined;
-  Dictionary: {
-    screen?: keyof DictionaryStackParamList;
-    params?: DictionaryStackParamList[keyof DictionaryStackParamList];
-    status?: 'safe' | 'danger';
-    genus?: string;
-    state?: { index: number; routes: Array<{ name: string; params?: object }> };
-  };
+  Home:
+    | undefined
+    | { screen: 'HomeScreen'; params?: { resetSearch?: boolean } };
   Saved: undefined;
   More: undefined;
 };
 
 export type HomeStackParamList = {
-  HomeScreen: undefined;
+  HomeScreen: { resetSearch?: boolean };
   PlantDetail: PlantDetailParams;
 };
 
@@ -44,10 +34,7 @@ export type RootStackParamList = {
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {
-      // 중첩 탭/스택 화면 - useNavigation() 타입에 포함
-      Dictionary: MainTabParamList['Dictionary'];
       PlantDetail: PlantDetailParams;
-      PlantList: DictionaryStackParamList['PlantList'];
       Home: undefined;
       Saved: undefined;
       More: undefined;

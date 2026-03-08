@@ -15,21 +15,20 @@ export interface PlantV22 {
   isToxic: boolean;
   isCritical: boolean;
   clinicalSigns: string;
-  clinicalSignsFormatted: string;
+  clinicalSignsFormatted?: string;
   keywords?: string[];
   symptoms?: string[];
-  symptomsSummary?: string;
   groupId?: string;
   type?: 'species' | 'genus' | 'group';
   parentInfo?: ParentInfo | null;
   wikimediaImageUrl?: string;
   hasWikimediaImage?: boolean;
-  imageTitle?: string;
   imageAuthor?: string;
   imageSourceUrl?: string;
   imageLicense?: string;
   imageLicenseUrl?: string;
   clinicalSignsEn?: string;
+  imageSearchName?: string;
 }
 
 export type SafetyLevelV22 = 'safe' | 'toxic' | 'critical';
