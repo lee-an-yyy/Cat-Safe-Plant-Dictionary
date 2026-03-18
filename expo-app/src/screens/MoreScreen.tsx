@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Info, FileText, Shield, HelpCircle, ChevronRight } from 'lucide-react-native';
+import { Info, FileText, ShieldCheck, HelpCircle, ChevronRight } from 'lucide-react-native';
 
 import { AppText } from '../components/AppText';
 import { AppBar } from '../components/AppBar';
@@ -15,7 +15,7 @@ type MenuRoute = 'ServiceInfo' | 'TermsOfService' | 'PrivacyPolicy' | 'CustomerS
 const MENU_ITEMS = [
   { icon: Info, label: '서비스 정보', route: 'ServiceInfo' as const },
   { icon: FileText, label: '이용약관', route: 'TermsOfService' as const },
-  { icon: Shield, label: '개인정보 처리방침', route: 'PrivacyPolicy' as const },
+  { icon: ShieldCheck, label: '개인정보 처리방침', route: 'PrivacyPolicy' as const },
   { icon: HelpCircle, label: '고객지원', route: 'CustomerSupport' as const },
 ] satisfies { icon: typeof Info; label: string; route: MenuRoute }[];
 
