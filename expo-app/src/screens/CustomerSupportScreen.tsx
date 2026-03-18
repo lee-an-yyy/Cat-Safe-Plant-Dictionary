@@ -3,19 +3,14 @@ import { View, ScrollView, Pressable, StyleSheet, Linking, Alert } from 'react-n
 import { useNavigation } from '@react-navigation/native';
 import { AppText } from '../components/AppText';
 import { AppBar } from '../components/AppBar';
+import { colors } from '../theme';
 
 const SUPPORT_EMAIL = 'meoknyong@gmail.com';
-
-const NOTICES = [
-  { title: '서비스 점검 안내', date: '2026.02.01' },
-  { title: '신규 식물 데이터 업데이트', date: '2026.01.15' },
-  { title: '앱 이용 가이드', date: '2025.12.20' },
-];
 
 const FAQ_ITEMS = [
   {
     q: '식물이 목록에 없어요. 추가 요청은 어떻게 하나요?',
-    a: '현재 사전에 등재된 식물은 고양이 안전/위험 기준으로 선별된 목록입니다. 원하시는 식물이 없다면 하단 "의견 보내기"를 참고해 이메일로 요청해 주시면, 검토 후 데이터 반영을 검토하겠습니다.',
+    a: "확실하고 안전한 정보 제공을 위해 현재는 ASPCA(미국동물학대방지협회)의 공식 데이터만 다루고 있습니다. 찾으시는 식물을 '의견 보내기'로 남겨주시면, 향후 사전 데이터 업데이트 시 적극적으로 참고하여 더 풍성한 정보를 제공할 수 있도록 노력하겠습니다.",
   },
   {
     q: '저장한 식물 목록이 사라졌어요.',
@@ -30,9 +25,16 @@ const FAQ_ITEMS = [
 export function CustomerSupportScreen() {
   const navigation = useNavigation();
 
+  const openMailto = (subject: string, body: string) => {
+    const mailto = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    Linking.openURL(mailto).catch(() =>
+      Alert.alert('안내', '이메일 앱을 열 수 없습니다. ' + SUPPORT_EMAIL + ' 로 직접 보내 주세요.')
+    );
+  };
+
   const sendEmail = () => {
-    const subject = encodeURIComponent('[묘-한 식물 사전] 문의');
-    const body = encodeURIComponent(
+    openMailto(
+      '[묘-한 식물 사전] 문의',
       [
         '아래 항목을 채워 보내 주시면 빠른 답변에 도움이 됩니다.',
         '',
@@ -42,9 +44,17 @@ export function CustomerSupportScreen() {
         '・문의 내용:',
       ].join('\n')
     );
-    const mailto = `mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`;
-    Linking.openURL(mailto).catch(() =>
-      Alert.alert('안내', '이메일 앱을 열 수 없습니다. ' + SUPPORT_EMAIL + ' 로 직접 보내 주세요.')
+  };
+
+  const sendFeedback = () => {
+    openMailto(
+      '[묘-한 식물 사전] 의견 보내기',
+      [
+        '서비스 개선 제안이나 추가를 원하는 식물 정보를 적어 주세요.',
+        '',
+        '・앱 버전: (설정 > 더보기에서 확인)',
+        '・의견 내용:',
+      ].join('\n')
     );
   };
 
@@ -56,24 +66,6 @@ export function CustomerSupportScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* 공지사항 */}
-        <View style={styles.section}>
-          <AppText style={styles.sectionTitle}>공지사항</AppText>
-          <View style={styles.card}>
-            {NOTICES.map((item, index) => (
-              <View
-                key={item.title}
-                style={[styles.noticeRow, index < NOTICES.length - 1 && styles.noticeRowBorder]}
-              >
-                <AppText style={styles.noticeTitle} numberOfLines={1}>
-                  {item.title}
-                </AppText>
-                <AppText style={styles.noticeDate}>{item.date}</AppText>
-              </View>
-            ))}
-          </View>
-        </View>
-
         {/* 자주 묻는 질문 */}
         <View style={styles.section}>
           <AppText style={styles.sectionTitle}>자주 묻는 질문</AppText>
@@ -94,7 +86,7 @@ export function CustomerSupportScreen() {
         <View style={styles.section}>
           <AppText style={styles.sectionTitle}>이메일 문의 안내</AppText>
           <AppText style={styles.body}>
-            1:1 채팅이 아닌 이메일로 문의를 받고 있습니다. 아래 주소로 보내 주시면 확인 후
+            이메일로 문의를 받고 있습니다. 아래 주소로 보내 주시면 확인 후
             답변드립니다.
           </AppText>
           <AppText style={styles.body}>
@@ -106,19 +98,8 @@ export function CustomerSupportScreen() {
             <Bullet text="문의 내용 (가능하면 구체적으로)" />
           </View>
           <Pressable style={styles.emailButton} onPress={sendEmail}>
-            <AppText style={styles.emailButtonText}>이메일로 문의하기</AppText>
+            <AppText style={styles.emailButtonText}>문의하기</AppText>
           </Pressable>
-        </View>
-
-        {/* 답변 소요 시간 */}
-        <View style={styles.section}>
-          <AppText style={styles.sectionTitle}>답변 소요 시간</AppText>
-          <View style={styles.highlightBox}>
-            <AppText style={styles.highlightText}>
-              접수해 주신 문의는 영업일 기준 2~3일 이내에 답변드리겠습니다. 주말·공휴일에는 답변이
-              지연될 수 있으며, 양해 부탁드립니다.
-            </AppText>
-          </View>
         </View>
 
         {/* 의견 보내기 */}
@@ -126,8 +107,11 @@ export function CustomerSupportScreen() {
           <AppText style={styles.sectionTitle}>의견 보내기</AppText>
           <AppText style={styles.body}>
             "이런 식물 정보를 추가해 주세요", "이런 기능이 있으면 좋겠어요" 같은 서비스 개선 제안을
-            언제나 환영합니다. 위 이메일로 보내 주시면 검토 후 반영을 검토하겠습니다.
+            언제나 환영합니다. 아래 버튼을 눌러 이메일로 보내 주시면 검토 후 반영을 검토하겠습니다.
           </AppText>
+          <Pressable style={styles.emailButton} onPress={sendFeedback}>
+            <AppText style={styles.emailButtonText}>의견 보내기</AppText>
+          </Pressable>
         </View>
 
         <View style={styles.bottomSpacer} />
@@ -172,27 +156,6 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
-  noticeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-  },
-  noticeRowBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
-  },
-  noticeTitle: {
-    flex: 1,
-    fontSize: 15,
-    color: '#111827',
-    marginRight: 12,
-  },
-  noticeDate: {
-    fontSize: 13,
-    color: '#9CA3AF',
-  },
   faqItem: {
     paddingVertical: 14,
     paddingHorizontal: 16,
@@ -232,27 +195,15 @@ const styles = StyleSheet.create({
   },
   emailButton: {
     alignSelf: 'flex-start',
-    backgroundColor: '#F97316',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    backgroundColor: colors.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
     borderRadius: 12,
   },
   emailButtonText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
     color: '#fff',
-  },
-  highlightBox: {
-    backgroundColor: 'rgba(249, 115, 22, 0.08)',
-    borderRadius: 12,
-    padding: 16,
-    borderLeftWidth: 4,
-    borderLeftColor: '#F97316',
-  },
-  highlightText: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#4B5563',
   },
   bottomSpacer: { height: 100 },
 });

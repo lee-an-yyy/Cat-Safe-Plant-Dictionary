@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Pressable, TextInput, StyleSheet, ViewStyle } from 'react-native';
-import { Search, X } from 'lucide-react-native';
+import { Search, CircleX } from 'lucide-react-native';
 
 import { AppText } from './AppText';
 import { FONT_FAMILY } from '../theme';
@@ -51,7 +51,7 @@ export function SearchBar(props: SearchBarProps) {
               hitSlop={8}
               style={styles.clearButton}
             >
-              <X size={18} color="#9CA3AF" />
+              <CircleX size={18} color="#9CA3AF" />
             </Pressable>
           )}
         </>

@@ -54,13 +54,11 @@ export function ServiceInfoScreen() {
           </AppText>
           <AppText style={styles.body}>
             <AppText style={styles.bold}>식물 이미지:</AppText> 본 앱에서 제공하는 식물 이미지의
-            대부분은 위키미디어 커먼즈(Wikimedia Commons)의 자료를 활용하여 구성되었습니다. 해당
-            이미지들은 크리에이티브 커먼즈 라이선스(CC BY, CC BY-SA 등) 및 퍼블릭 도메인, CC0 규정을
-            준수하여 제공됩니다.
-          </AppText>
-          <AppText style={styles.body}>
-            개별 이미지의 원본 출처, 저작자 정보 및 상세 라이선스 조항은 각 식물 상세 화면의
-            이미지에 위치한 'ⓘ 이미지 출처' 버튼을 탭하여 개별적으로 확인할 수 있습니다.
+            대부분은 위키미디어 커먼즈(Wikimedia Commons)의 자료를 활용하여 구성되었습니다. 단,
+            원본 데이터의 식물명과 오픈소스 이미지를 매칭하는 작업은 자체적으로 진행되었으므로,
+            일부 이미지가 실제 식물과 다르게 연결되어 있을 수 있습니다. 개별 이미지의 원본 출처,
+            저작자 정보 및 상세 라이선스 조항은 각 식물 상세 화면의 이미지에 위치한 'ⓘ 이미지
+            출처' 버튼을 탭하여 개별적으로 확인할 수 있습니다.
           </AppText>
         </View>
 
@@ -68,10 +66,12 @@ export function ServiceInfoScreen() {
         <View style={styles.section}>
           <AppText style={styles.sectionTitle}>서비스 이용 주의사항 (면책 조항)</AppText>
           <AppText style={styles.body}>
-            본 앱의 모든 정보는 ASPCA 원문 데이터를 번역 및 가공하여 참고용으로 제공되며, 전문적인
-            수의학적 진단이나 의료 조언을 대신할 수 없습니다. 데이터의 번역 오류나 지연 등에 대해
-            당사는 법적 책임을 지지 않으며, 반려묘에게 이상 증상이 발생할 경우 즉시 수의사와
-            상담하시기 바랍니다.
+            본 앱은 ASPCA 데이터를 원본으로 하여 자체적인 데이터 정제(학명·속명 기준 그룹화, 증상
+            키워드 요약, 번역 등) 과정을 거쳐 정보를 제공합니다. 데이터 가공 및 번역, 그리고 이미지
+            매칭 과정에서 오류가 발생할 수 있으며, 동일 속(Genus)으로 묶인 식물이라도 개별 종에 따라
+            독성 여부가 다를 수 있습니다. 제공되는 정보와 이미지는 수의학적 진단 및 전문적인 식물
+            식별을 대신할 수 없으므로, 반려동물에게 이상 증상이 발생할 경우 즉시 수의사와 상담하시기
+            바랍니다.
           </AppText>
         </View>
 
@@ -104,11 +104,11 @@ const styles = StyleSheet.create({
   },
   linkButton: {
     alignSelf: 'flex-start',
-    paddingVertical: 8,
+    paddingVertical: 6,
     paddingHorizontal: 4,
   },
   linkButtonText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '500',
     color: '#3B82F6',
   },

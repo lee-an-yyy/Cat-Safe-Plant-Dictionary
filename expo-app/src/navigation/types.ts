@@ -26,6 +26,7 @@ export type RootStackParamList = {
   ServiceInfo: undefined;
   CustomerSupport: undefined;
   WebView: { url: string; title: string };
+  CreatorStory: undefined;
   PrivacyPolicy: undefined;
   TermsOfService: undefined;
   OpenSourceLicense: undefined;

@@ -7,8 +7,16 @@ import { ShieldAlert, Check } from 'lucide-react-native';
 import { AppText } from '../components/AppText';
 import { STORAGE_KEYS } from '../theme';
 
-const DISCLAIMER_TEXT =
-  '본 앱은 ASPCA 데이터를 번역하여 제공하며, 번역 오류가 있을 수 있습니다. 제공되는 정보는 수의학적 진단을 대신할 수 없으며, 반려동물에게 이상 증상이 발생할 경우 즉시 수의사와 상담해야 합니다.';
+const DISCLAIMER_ITEMS = [
+  {
+    label: '오류 가능성 및 이미지 참고',
+    body: '번역, 식물 그룹화, 이미지 매칭 과정에서 오류가 있을 수 있으며, 제공되는 이미지는 식별을 위한 참고용입니다.',
+  },
+  {
+    label: '수의학적 진단 대체 불가',
+    body: '본 정보는 참고용 가이드일 뿐입니다. 반려동물이 식물을 섭취하고 이상 증상이 발생할 경우, 즉시 수의사와 상담하시기 바랍니다.',
+  },
+];
 
 export function OnboardingDisclaimerScreen() {
   const [agreed, setAgreed] = useState(false);
@@ -44,11 +52,21 @@ export function OnboardingDisclaimerScreen() {
             <ShieldAlert size={48} color="#D97706" strokeWidth={2} />
           </View>
           <AppText style={styles.title}>서비스 이용 전 반드시 읽어주세요</AppText>
+
         </View>
 
         {/* 중앙: 면책 문구 */}
         <View style={styles.disclaimerBox}>
-          <AppText style={styles.disclaimerText}>{DISCLAIMER_TEXT}</AppText>
+          <AppText style={styles.disclaimerIntro}>
+            '묘생식물대사전'은 ASPCA 데이터를 기반으로 자체 가공한 식물 정보를 제공합니다. 서비스
+            이용 전 아래 사항을 꼭 확인해 주세요.
+          </AppText>
+          {DISCLAIMER_ITEMS.map((item) => (
+            <View key={item.label} style={styles.disclaimerItem}>
+              <AppText style={styles.disclaimerLabel}>{item.label}:</AppText>
+              <AppText style={styles.disclaimerBody}>{item.body}</AppText>
+            </View>
+          ))}
         </View>
 
         {/* 하단: 동의 체크박스 + 시작하기 버튼 */}
@@ -121,11 +139,28 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 40,
   },
-  disclaimerText: {
-    fontSize: 16,
+  disclaimerIntro: {
+    fontSize: 17,
     lineHeight: 26,
     color: '#9A3412',
-    textAlign: 'center',
+    fontWeight: '600',
+    marginBottom: 18,
+  },
+  disclaimerItem: {
+    marginBottom: 14,
+  },
+  disclaimerLabel: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: '#9A3412',
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  disclaimerBody: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: '#9A3412',
+    opacity: 0.95,
   },
   footer: {
     marginTop: 'auto',

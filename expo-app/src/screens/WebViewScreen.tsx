@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { View, StyleSheet, Pressable, BackHandler, Linking } from 'react-native';
+import { View, StyleSheet, Pressable, BackHandler, Linking, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { WebView } from 'react-native-webview';
@@ -7,8 +7,7 @@ import { ArrowLeft, X } from 'lucide-react-native';
 
 import { AppText } from '../components/AppText';
 import type { RootStackParamList } from '../navigation/types';
-
-const PRIMARY_COLOR = '#3B82F6';
+import { colors } from '../theme';
 
 type WebViewRouteProp = RouteProp<RootStackParamList, 'WebView'>;
 
@@ -90,6 +89,38 @@ export function WebViewScreen() {
     );
   }
 
+  // React Native WebView는 웹 플랫폼을 지원하지 않음 → 새 탭에서 열기
+  if (Platform.OS === 'web') {
+    return (
+      <SafeAreaView style={styles.safe} edges={['top']}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Pressable style={styles.headerBtn} onPress={() => navigation.goBack()} hitSlop={8}>
+              <ArrowLeft size={24} color="#111827" />
+            </Pressable>
+            <AppText style={styles.headerTitle} numberOfLines={1}>
+              {title || '웹 보기'}
+            </AppText>
+            <Pressable style={styles.headerBtn} onPress={() => navigation.goBack()} hitSlop={8}>
+              <X size={24} color="#111827" />
+            </Pressable>
+          </View>
+          <View style={styles.centered}>
+            <AppText style={styles.webFallbackText}>
+              링크는 새 탭에서 열립니다.
+            </AppText>
+            <Pressable
+              style={styles.webFallbackBtn}
+              onPress={() => Linking.openURL(url)}
+            >
+              <AppText style={styles.webFallbackBtnText}>새 탭에서 열기</AppText>
+            </Pressable>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <View style={styles.container}>
@@ -166,7 +197,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: '100%',
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: colors.primary,
   },
   webview: {
     flex: 1,
@@ -183,14 +214,32 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     marginBottom: 16,
   },
-  closeBtn: {
+  webFallbackText: {
+    fontSize: 16,
+    color: '#4B5563',
+    textAlign: 'center',
+    marginBottom: 20,
+    lineHeight: 24,
+  },
+  webFallbackBtn: {
     paddingVertical: 10,
     paddingHorizontal: 20,
+    backgroundColor: colors.primary,
+    borderRadius: 12,
+  },
+  webFallbackBtnText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#fff',
+  },
+  closeBtn: {
+    paddingVertical: 8,
+    paddingHorizontal: 18,
     backgroundColor: '#F3F4F6',
     borderRadius: 12,
   },
   closeBtnText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
     color: '#111827',
   },

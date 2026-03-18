@@ -1,10 +1,11 @@
 /**
- * Types for plant_db_v59_fixed.json
+ * Types for plant_db_v62.2_final.json
  */
+
+import { plantImageMap } from './plantImageMap';
 
 export interface ParentInfo {
   name: string;
-  isToxic?: boolean;
 }
 
 export interface PlantV22 {
@@ -51,10 +52,27 @@ export function getDisplayNameBilingualV22(plant: PlantV22): string {
   return getDisplayNameV22(plant);
 }
 
-/** 이미지 URL: wikimediaImageUrl 또는 null (placeholder용) */
+/** 이미지 URL: wikimediaImageUrl 또는 null (placeholder용) - URL 기반 이미지용 */
 export function getImageUrlV22(plant: PlantV22): string | null {
-  if (plant.wikimediaImageUrl?.trim()) return plant.wikimediaImageUrl;
+  const url = plant.wikimediaImageUrl?.trim();
+  if (!url) return null;
+  // 원격 URL만 반환 (http/https)
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
   return null;
+}
+
+/** 이미지 source: 로컬 require() 또는 { uri } (Image source 용) */
+export type PlantImageSource = { uri: string } | number;
+
+export function getImageSourceV22(plant: PlantV22): PlantImageSource | null {
+  const url = plant.wikimediaImageUrl?.trim();
+  if (!url) return null;
+  // 로컬 경로: plantImageMap에서 require 결과 사용
+  if (url.startsWith('.') || !url.startsWith('http')) {
+    const local = plantImageMap[plant.id];
+    return local ?? null;
+  }
+  return { uri: url };
 }
 
 /** groupId 파싱: "acalypha_group" → "Acalypha 그룹" */

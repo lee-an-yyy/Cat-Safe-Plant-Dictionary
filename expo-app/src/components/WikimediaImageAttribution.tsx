@@ -147,12 +147,12 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     backgroundColor: '#F3F4F6',
-    paddingVertical: 14,
+    paddingVertical: 12,
     borderRadius: 14,
     alignItems: 'center',
   },
   closeButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     color: '#374151',
   },

@@ -48,9 +48,12 @@ export function MoreScreen() {
       </View>
 
       <View style={styles.footer}>
-        <AppText style={styles.footerTitle}>Cat-Safe Plant Dictionary</AppText>
+        <AppText style={styles.footerTitle}>묘생식물대사전</AppText>
         <AppText style={styles.footerVersion}>Version 1.0.0</AppText>
         <AppText style={styles.footerCopyright}>© 2026 All rights reserved</AppText>
+        <Pressable onPress={() => navigation.navigate('CreatorStory')}>
+          <AppText style={styles.footerCredit}>Built & Designed by Yuan Lee</AppText>
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -90,6 +93,11 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   footerTitle: { fontSize: 16, fontWeight: '600', marginBottom: 8 },
-  footerVersion: { fontSize: 14, color: '#6B7280', marginBottom: 4 },
-  footerCopyright: { fontSize: 12, color: '#9CA3AF' },
+  footerVersion: { fontSize: 14, color: '#6B7280', marginBottom: 6 },
+  footerCopyright: { fontSize: 12, color: '#9CA3AF', marginBottom: 2 },
+  footerCredit: {
+    fontSize: 12,
+    color: colors.neutral,
+    textDecorationLine: 'underline',
+  },
 });

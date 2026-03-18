@@ -6,10 +6,9 @@ import { colors } from '../theme';
 import type { PlantV22, SafetyLevelV22 } from '../data/plantV22Types';
 import {
   getSafetyLevelV22,
-  getDisplayNameV22,
   getDisplayNameBilingualV22,
   getContextSubtitleV22,
-  getImageUrlV22,
+  getImageSourceV22,
 } from '../data/plantV22Types';
 
 export interface PlantCardProps {
@@ -34,21 +33,29 @@ function getStatusConfig(level: SafetyLevelV22) {
 export function PlantCard({ plant, onPress, style }: PlantCardProps) {
   const level = getSafetyLevelV22(plant);
   const statusConfig = getStatusConfig(level);
-  const displayName = plant.groupId ? getDisplayNameV22(plant) : getDisplayNameBilingualV22(plant);
+  const displayName = getDisplayNameBilingualV22(plant);
   const contextSubtitle = getContextSubtitleV22(plant);
-  const imageUrl = getImageUrlV22(plant);
+  const imageSource = getImageSourceV22(plant);
 
   return (
     <Pressable style={[styles.card, style]} onPress={onPress}>
-      {imageUrl ? (
-        <ImageWithFallback source={{ uri: imageUrl }} style={styles.plantImage} />
+      {imageSource ? (
+        <ImageWithFallback source={imageSource} style={styles.plantImage} />
       ) : (
         <View style={[styles.plantImage, styles.plantImagePlaceholder]} />
       )}
       <View style={styles.plantInfo}>
-        <AppText style={styles.plantName} numberOfLines={1}>
-          {displayName}
-        </AppText>
+        <View style={styles.nameBadgeRow}>
+          <AppText style={styles.plantName} numberOfLines={1}>
+            {displayName}
+          </AppText>
+          <View style={[styles.statusChip, { backgroundColor: `${statusConfig.color}20` }]}>
+            <View style={[styles.statusDot, { backgroundColor: statusConfig.color }]} />
+            <AppText style={[styles.statusText, { color: statusConfig.color }]}>
+              {statusConfig.label}
+            </AppText>
+          </View>
+        </View>
         <AppText style={styles.plantScientific} numberOfLines={1}>
           {plant.scientificName}
         </AppText>
@@ -57,12 +64,6 @@ export function PlantCard({ plant, onPress, style }: PlantCardProps) {
             [{contextSubtitle}]
           </AppText>
         )}
-        <View style={[styles.statusChip, { backgroundColor: `${statusConfig.color}20` }]}>
-          <View style={[styles.statusDot, { backgroundColor: statusConfig.color }]} />
-          <AppText style={[styles.statusText, { color: statusConfig.color }]}>
-            {statusConfig.label}
-          </AppText>
-        </View>
       </View>
     </Pressable>
   );
@@ -97,28 +98,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     minWidth: 0,
   },
+  nameBadgeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 6,
+    gap: 8,
+  },
   plantName: {
     fontSize: 16,
     fontWeight: '600',
-    marginBottom: 4,
     flexShrink: 1,
+    flex: 1,
   },
   plantScientific: {
     fontSize: 14,
     color: colors.gray500,
     fontStyle: 'italic',
-    marginBottom: 2,
+    marginBottom: 4,
   },
   contextSubtitle: {
     fontSize: 12,
     color: '#666',
-    marginBottom: 6,
+    marginTop: 2,
   },
   statusChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'flex-start',
-    marginTop: 4,
+    flexShrink: 0,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 999,

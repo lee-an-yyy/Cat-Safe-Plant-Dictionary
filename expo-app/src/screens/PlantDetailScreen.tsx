@@ -8,7 +8,7 @@ import { plantsV22 } from '../data/plantsV22';
 import {
   getSafetyLevelV22,
   getDisplayNameV22,
-  getImageUrlV22,
+  getImageSourceV22,
   getGenusV22,
   getMaxSafetyLevelV22,
 } from '../data/plantV22Types';
@@ -152,7 +152,7 @@ export function PlantDetailScreen() {
   const plant = resolved;
   const level = getSafetyLevelV22(plant);
   const displayName = getDisplayNameV22(plant);
-  const imageUrl = getImageUrlV22(plant);
+  const imageSource = getImageSourceV22(plant);
   const plantGenus = getGenusV22(plant);
   const symptoms = plant.symptoms?.filter((s) => s?.trim()) ?? [];
   const namesKo = plant.namesKo?.filter((s) => s?.trim()) ?? [];
@@ -180,8 +180,8 @@ export function PlantDetailScreen() {
     <View style={styles.container}>
       <ScrollView style={styles.flex1} contentContainerStyle={styles.content}>
         <View style={styles.heroContainer}>
-          {imageUrl ? (
-            <ImageWithFallback source={{ uri: imageUrl }} style={styles.heroImage} />
+          {imageSource ? (
+            <ImageWithFallback source={imageSource} style={styles.heroImage} />
           ) : (
             <View style={[styles.heroImage, styles.heroImagePlaceholder]} />
           )}

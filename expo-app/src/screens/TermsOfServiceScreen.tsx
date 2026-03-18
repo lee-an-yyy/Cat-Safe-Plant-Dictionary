@@ -1,21 +1,23 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, BackHandler } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, BackHandler, Platform, Pressable, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { WebView } from 'react-native-webview';
 
 import { AppBar } from '../components/AppBar';
+import { AppText } from '../components/AppText';
+import { colors } from '../theme';
 
 const TERMS_URL =
   'https://www.notion.so/Terms-of-Service-30f894bc9b408050bab4e46f89efd214?source=copy_link';
 
 export function TermsOfServiceScreen() {
   const navigation = useNavigation();
-  const webViewRef = useRef<WebView>(null);
+  const webViewRef = useRef<WebView | null>(null);
   const [loadProgress, setLoadProgress] = useState(0);
   const [canGoBack, setCanGoBack] = useState(false);
 
   const handleBack = useCallback(() => {
-    if (canGoBack) {
+    if (canGoBack && Platform.OS !== 'web') {
       webViewRef.current?.goBack();
       return true;
     }
@@ -45,12 +47,33 @@ export function TermsOfServiceScreen() {
     setCanGoBack(Boolean(navState.canGoBack));
   }, []);
 
+  const handleOpenInBrowser = useCallback(() => {
+    Linking.openURL(TERMS_URL);
+  }, []);
+
+  // React Native WebView는 웹 플랫폼을 지원하지 않음 → 새 탭에서 열기
+  if (Platform.OS === 'web') {
+    return (
+      <View style={styles.container}>
+        <AppBar title="전체 약관" showBack onBack={() => navigation.goBack()} />
+        <View style={styles.webFallback}>
+          <AppText style={styles.webFallbackText}>
+            이용약관 전문은 새 탭에서 확인할 수 있습니다.
+          </AppText>
+          <Pressable style={styles.webFallbackBtn} onPress={handleOpenInBrowser}>
+            <AppText style={styles.webFallbackBtnText}>새 탭에서 열기</AppText>
+          </Pressable>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <AppBar title="전체 약관" showBack onBack={handleBack} />
       <View style={styles.webviewWrapper}>
         <WebView
-          ref={webViewRef}
+          ref={webViewRef as React.RefObject<WebView>}
           source={{ uri: TERMS_URL }}
           style={styles.webview}
           onLoadProgress={handleLoadProgress}
@@ -58,7 +81,7 @@ export function TermsOfServiceScreen() {
         />
         {loadProgress < 1 && (
           <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color="#3B82F6" />
+            <ActivityIndicator size="large" color={colors.primary} />
           </View>
         )}
       </View>
@@ -85,5 +108,29 @@ const styles = StyleSheet.create({
   webview: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  webFallback: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  webFallbackText: {
+    fontSize: 16,
+    color: '#4B5563',
+    textAlign: 'center',
+    marginBottom: 20,
+    lineHeight: 24,
+  },
+  webFallbackBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: colors.primary,
+    borderRadius: 12,
+  },
+  webFallbackBtnText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#fff',
   },
 });

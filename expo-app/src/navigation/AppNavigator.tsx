@@ -22,6 +22,7 @@ import { WebViewScreen } from '../screens/WebViewScreen';
 import { PrivacyPolicyScreen } from '../screens/PrivacyPolicyScreen';
 import { TermsOfServiceScreen } from '../screens/TermsOfServiceScreen';
 import { OpenSourceLicenseScreen } from '../screens/OpenSourceLicenseScreen';
+import { CreatorStoryScreen } from '../screens/CreatorStoryScreen';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -119,6 +120,7 @@ export function AppNavigator() {
       <RootStack.Screen name="ServiceInfo" component={ServiceInfoScreen} />
       <RootStack.Screen name="CustomerSupport" component={CustomerSupportScreen} />
       <RootStack.Screen name="WebView" component={WebViewScreen} />
+      <RootStack.Screen name="CreatorStory" component={CreatorStoryScreen} />
       <RootStack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
       <RootStack.Screen name="TermsOfService" component={TermsOfServiceScreen} />
       <RootStack.Screen name="OpenSourceLicense" component={OpenSourceLicenseScreen} />

@@ -8,9 +8,10 @@ export const colors = {
 
   // Danger
   danger: '#E74C3C',
-  dangerDark: '#C62828',
+  dangerDark: '#941919', // 치명적: 위험보다 더 어두운 레드로 구분
 
-  // Neutral
+  // Neutral (초록 계열과 조화로운 웜 그레이-그린)
+  neutral: '#5F6B5D',
   gray50: '#F9FAFB',
   gray100: '#F3F4F6',
   gray200: '#E5E7EB',
