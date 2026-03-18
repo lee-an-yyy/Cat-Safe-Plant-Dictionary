@@ -18,14 +18,21 @@ export function EnglishOriginalPreferenceProvider({ children }: { children: Reac
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
     AsyncStorage.getItem(STORAGE_KEYS.SHOW_ENGLISH_ORIGINAL)
       .then((stored) => {
+        if (cancelled) return;
         if (stored !== null) {
           setShowEnglishState(stored === 'true');
         }
         setIsLoaded(true);
       })
-      .catch(() => setIsLoaded(true));
+      .catch(() => {
+        if (!cancelled) setIsLoaded(true);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {

@@ -37,7 +37,10 @@ export function SavedScreen() {
 
   return (
     <View style={styles.container}>
-      <AppBar title="저장된 식물" subtitle={`${savedPlants.length}개의 식물 저장됨`} />
+      <AppBar title="저장된 식물" />
+      <View style={styles.countRow}>
+        <AppText style={styles.countText}>{savedPlants.length}개의 식물 저장됨</AppText>
+      </View>
       <ScrollView
         style={styles.list}
         contentContainerStyle={styles.listContent}
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingTop: 80,
     marginTop: -64,
   },
@@ -78,9 +81,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 24,
   },
+  countRow: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 4,
+    backgroundColor: '#F9FAFB',
+  },
+  countText: {
+    fontSize: 14,
+    color: '#6B7280',
+  },
   list: { flex: 1 },
   listContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 100,
   },

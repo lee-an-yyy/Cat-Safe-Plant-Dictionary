@@ -5,7 +5,7 @@ import { AppText } from './AppText';
 
 const PADDING_TOP = 48;
 const PADDING_BOTTOM = 24;
-const PADDING_H = 24;
+const PADDING_H = 16;
 
 export interface AppBarProps {
   title?: string;

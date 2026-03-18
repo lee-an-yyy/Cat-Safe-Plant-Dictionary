@@ -6,9 +6,7 @@ import { WebView } from 'react-native-webview';
 import { AppBar } from '../components/AppBar';
 import { AppText } from '../components/AppText';
 import { colors } from '../theme';
-
-const PRIVACY_POLICY_URL =
-  'https://www.notion.so/2f8894bc9b4080aabc76f679fc7b86b4?source=copy_link';
+import { PRIVACY_POLICY_URL } from '../constants/config';
 
 export function PrivacyPolicyScreen() {
   const navigation = useNavigation();
@@ -111,7 +109,8 @@ const styles = StyleSheet.create({
   },
   webFallback: {
     flex: 1,
-    padding: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 24,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -5,6 +5,8 @@ export const FONT_FAMILY = 'IBM-Regular';
 export const colors = {
   // Primary
   primary: '#27AE60',
+  /** 헤더/버튼용 (primary보다 약간 밝은 톤) */
+  primaryHeader: '#43AB7C',
 
   // Danger
   danger: '#E74C3C',

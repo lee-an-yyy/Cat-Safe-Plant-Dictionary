@@ -8,14 +8,15 @@ import {
   Image,
   Keyboard,
   Animated,
-  Platform,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { HomeStackParamList } from '../navigation/types';
 import { ShieldCheck, AlertTriangle, LayoutGrid, Search } from 'lucide-react-native';
 
 import { plantsV22 } from '../data/plantsV22';
+import { POPULAR_PLANT_ORDER } from '../data/popularPlantOrder';
 import { colors } from '../theme';
 import type { PlantV22 } from '../data/plantV22Types';
 import { PlantCard } from '../components/PlantCard';
@@ -57,109 +58,6 @@ const FILTER_TABS: { value: StatusFilterValue; label: string; icon: typeof Layou
   { value: 'danger', label: '위험', icon: AlertTriangle },
 ];
 
-/** 꽃다발·실내식물 등 자주 사용하는 식물 우선순위 (앞일수록 상단 노출) */
-const POPULAR_PLANT_ORDER: string[] = [
-  'rosa_spp', // 장미 (Rosa spp.)
-  'dianthus_caryophyllus', // 카네이션 (Dianthus caryophyllus)
-  'gypsophila_elegans', // 안개꽃 (Gypsophila elegans)
-  'hydrangea_arborescens', // 수국 / 나무수국 (Hydrangea arborescens)
-  'epipremnum_aureum', // 골든 포토스 / 스킨답서스 (Scindapsus aureus)
-  'scindapsus_pictus', // 스킨답서스 (Scindapsus spp)
-  'spathiphyllum', // 스파티필름 (Spathiphyllum)
-  'lilium_longiflorum', // 백합 (Lilium longiflorum)
-  'dracaena_fragrans', // 행운목 (Dracaena fragrans)
-  'pachira_aquatica', // 파키라 / 머니트리 (Pachira aquatica)
-  'crassula_argentea', // 염좌 / 돈나무 (Crassula argentea)
-  'aloe_barbadensis', // 알로에 베라 (Aloe barbadensis)
-  'coleus_amboinicus', // 장미허브 (Coleus amboinicus)
-  'brassaia_actinophylla', // 대엽홍콩야자 / 쉐플레라 (Brassaia actinophylla)
-  'philodendron_hederaceum', // 하트잎 필로덴드론 (Philodendron hederaceum)
-  'syngonium_podophyllum', // 싱고니움 (Syngonium podophyllum)
-  'narcissus_jonquilla', // 수선화 (Narcissus jonquilla)
-  'hyacinthus_orientalis', // 히아신스 (Hyacinthus orientalis)
-  'dracaena_marginata', // 마지나타 (Dracaena marginata)
-  'aglaonema_modestum', // 아글라오네마 (Aglaonema modestum)
-  'cyclamen_spp', // 시클라멘 (Cyclamen spp)
-  'dahlia_species', // 다알리아 (Dahlia species)
-  'lilium_asiatica', // 아시아틱 백합 (Lilium asiatica)
-  'lilium_orientalis', // 스타게이저 백합 (Lilium orientalis)
-  'dieffenbachia_amoena', // 디펜바키아 아모에나 (Dieffenbachia amoena)
-  'dieffenbachia_picta', // 디펜바키아 픽타 (Dieffenbachia picta)
-  'philodendron_selloum', // 셀로움 (Philodendron selloum)
-  'strelitzia_reginae', // 극락조화 (Strelitzia reginae)
-  'clivia_miniata', // 군자란 (Clivia miniata)
-  'haworthia_fasciata', // 십이지권 (Haworthia fasciata)
-  'echeveria_elegans', // 멕시코 돌나물 (Echeveria elegans)
-  'haworthia_subfasciata', // 얼룩말 하월시아 (Haworthia subfasciata)
-  'kalanchoe_tubiflora', // 칼랑코에 튜비플로라 (Kalanchoe tubiflora)
-  'adenium_obesum', // 사막장미 (Adenium obesum)
-  'dracaena_deremensis', // 자넷 크레이그 (Dracaena deremensis)
-  'dracaena_reflexa', // 송 오브 인디아 (Dracaena reflexa)
-  'cordyline_australis', // 뉴질랜드드라세나 (Cordyline australis)
-  'cordyline_terminalis', // 티플랜트 (Cordyline terminalis)
-  'begonia_semperflorens_cultivar', // 왁스 베고니아 (Begonia semperflorens cultivar)
-  'begonia_rex', // 렉스 베고니아 (Begonia rex)
-  'asparagus_densiflorus', // 아스파라거스 / 메이리 (Asparagus densiflorus)
-  'hypoestes_phyllostachya', // 하이포에스테스 / 폴카닷 식물 (Hypoestes phyllostachya)
-  'hosta_plantaginea', // 비비추 / 호스타 (Hosta plantaginea)
-  'aspidistra_elatior', // 엽란 (Aspidistra elatior)
-  'davallia_fejeensis', // 토끼발고사리 (Davallia fejeensis)
-  'asplenium_bulbiferum', // 어미고사리 (Asplenium bulbiferum)
-  'clematis_spp', // 클레마티스 (Clematis spp.)
-  'petunia_species', // 페튜니아 (Petunia species)
-  'alcea_rosea', // 접시꽃 (Alcea rosea)
-  'hemerocallis_graminea', // 원추리 (Hemerocallis graminea)
-  'lilium_tigrinum', // 참나리 (Lilium tigrinum)
-  'lilium_speciosum', // 산나리 (Lilium speciosum)
-  'anthemis_nobilis', // 로만 캐모마일 (Anthemis nobilis)
-  'stephanotis_floribunda', // 마다가스카르 자스민 (Stephanotis floribunda)
-  'hylocereus_undatus', // 용과 / 드래곤 프루트 (Hylocereus undatus)
-  'euphorbia_tirucalli', // 청산호 / 연필선인장 (Euphorbia tirucalli)
-  'beaucarnea_recurvata', // 덕구리난 / 코끼리발나무 (Beaucarnea recurvata)
-  'nolina_tuberculata', // 노리나 / 포니테일 플랜트 (Nolina tuberculata)
-  'calathea_insignis', // 칼라데아 란시폴리아 / 부부초 (Calathea insignis)
-  'calathea_micans', // 칼라데아 미칸스 (Calathea micans)
-  'philodendron_bipennifolium', // 바이올린 필로덴드론 (Philodendron bipennifolium)
-  'philodendron_oxycardium', // 필로덴드론 옥시카르디움 (Philodendron oxycardium)
-  'dracaena_surculosa', // 골드 더스트 드라세나 (Dracaena surculosa)
-  'cordyline_rubra', // 코르딜리네 루브라 (Cordyline rubra)
-  'aloe_retusa', // 쿠션 알로에 (Aloe retusa)
-  'crassula_arborescens', // 은전나무 / 실버달러 (Crassula arborescens)
-  'haworthia_margaritifera', // 월동자 (Haworthia margaritifera)
-  'echeveria_derenbergii', // 데렌베르기 에케베리아 (Echeveria derenbergii)
-  'echeveria_pulvinata', // 에케베리아 풀비나타 (Echeveria pulvinata)
-  'echeveria_gilva', // 에케베리아 길바 (Echeveria gilva)
-  'echeveria_glauca', // 에케베리아 글라우카 (Echeveria glauca)
-  'echeveria_multicaulis', // 에케베리아 멀티카울리스 (Echeveria multicaulis)
-  'echeveria_pulv_oliver', // 에케베리아 풀 올리버 (Echeveria 'Pulv-Oliver')
-  'portulaca_oleracea', // 쇠비름 (Portulaca oleracea)
-  'clusia_major', // 클루시아 (Clusia major)
-  'asparagus_densiflorus_cv_sprengeri', // 스프렌게리 (Asparagus densiflorus cv sprengeri)
-  'hypocyrta_nummularia', // 금붕어꽃 / 네마탄서스 (Hypocyrta nummularia)
-  'aeschynanthus_humilis', // 립스틱 식물 (Aeschynanthus humilis)
-  'iris_spuria', // 나비붓꽃 / 아이리스 (Iris spuria)
-  'colchicum_autumnale', // 가을크로커스 (Colchicum autumnale)
-  'digitalis_purpurea', // 폭스글러브 / 디기탈리스 (Digitalis purpurea)
-  'gloriosa_superba', // 글로리오사 (Gloriosa rothschildiana)
-  'lilium_umbellatum', // 솔나리 (Lilium umbellatum)
-  'anthemis_cotula', // 개꽃마리 / 독성 카모마일 (Anthemis cotula)
-  'begonia_cleopatra', // 클레오파트라 베고니아 (Begonia cleopatra)
-  'begonia_masoniana', // 아이언 크로스 베고니아 (Begonia masoniana)
-  'begonia_metallica', // 메탈릭카 베고니아 (Begonia metallica)
-  'begonia_scharffii', // 베고니아 샤르피 (Begonia scharffii)
-  'adonidia_merrillii', // 마닐라 야자 / 크리스마스 야자 (Adonidia merrillii)
-  'zamia_furfuracea', // 카드보드 사이카드 (Zamia furfuracea)
-  'zamia_pumila', // 쿤티야자 (Zamia pumila)
-  'gynura_aurantiaca', // 벨벳식물 (Gynura aurantiaca)
-  'iresine_herbstii', // 블러드리프 / 아이레신 (Iresine herbstii)
-  'hemigraphis_exotica', // 와플식물 (Hemigraphis exotica)
-  'pellionia_daveauana', // 펠리오니아 다베아우아나 (Pellionia daveauana)
-  'pellionia_pulchra', // 사틴 펠리오니아 (Pellionia pulchra)
-  'bertolonia_maculata', // 모자이크 식물 (Bertolonia mosaica)
-  'tolmiea_menziesii', // 피기백플랜트 (Tolmiea menziesii)
-  'frithia_pulchra', // 프리티아 (Frithia pulchra)
-];
-
 function getPlantSortOrder(id: string): number {
   const idx = POPULAR_PLANT_ORDER.indexOf(id);
   return idx >= 0 ? idx : POPULAR_PLANT_ORDER.length;
@@ -171,8 +69,10 @@ function getTabCount(value: StatusFilterValue, all: number, safe: number, danger
   return String(danger);
 }
 
+type HomeScreenNavigationProp = NativeStackNavigationProp<HomeStackParamList, 'HomeScreen'>;
+
 export function HomeScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const route = useRoute<RouteProp<HomeStackParamList, 'HomeScreen'>>();
   const insets = useSafeAreaInsets();
   const [statusFilter, setStatusFilter] = useState<StatusFilterValue>('all');
@@ -197,7 +97,7 @@ export function HomeScreen() {
       setSearchQuery('');
       setStatusFilter('all');
       listRef.current?.scrollToOffset({ offset: 0, animated: true });
-      (navigation as any).setParams({ resetSearch: undefined });
+      navigation.setParams({ resetSearch: undefined });
     }
   }, [route.params?.resetSearch, navigation]);
 
@@ -314,7 +214,7 @@ export function HomeScreen() {
   return (
     <View style={styles.container}>
       <Animated.FlatList
-        ref={listRef as any}
+        ref={listRef}
         data={filteredPlants}
         renderItem={renderPlant}
         keyExtractor={(item) => item.id}
@@ -366,7 +266,7 @@ export function HomeScreen() {
             ]}
             onPress={handleFloatingSearchPress}
           >
-            <Search size={22} color="#fff" />
+            <Search size={22} color={colors.white} />
           </Pressable>
         </Animated.View>
       </Animated.View>
@@ -377,8 +277,8 @@ export function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
   fixedHeader: {
-    backgroundColor: '#43AB7C',
-    paddingHorizontal: 24,
+    backgroundColor: colors.primaryHeader,
+    paddingHorizontal: 16,
   },
   fixedHeaderOverlay: {
     position: 'absolute',
@@ -386,19 +286,19 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: 'transparent',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
   },
   headerGreenBg: {
     flex: 1,
-    backgroundColor: '#43AB7C',
-    paddingHorizontal: 24,
+    backgroundColor: colors.primaryHeader,
+    paddingHorizontal: 16,
   },
   collapsedBar: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'transparent',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingBottom: 12,
     /* paddingTop: insets.top + 8 → collapsedBar 인라인에서 적용 (노치/동적아일랜드 대응, 버튼 하단 배치) */
   },
@@ -406,7 +306,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#43AB7C',
+    backgroundColor: colors.primaryHeader,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -419,7 +319,7 @@ const styles = StyleSheet.create({
     opacity: 0.85,
   },
   list: { flex: 1 },
-  listContent: { paddingBottom: 100, paddingHorizontal: 24 },
+  listContent: { paddingBottom: 100, paddingHorizontal: 16 },
   header: {
     paddingTop: 48,
     paddingBottom: 20,
@@ -505,5 +405,5 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   empty: { paddingVertical: 48, alignItems: 'center' },
-  emptyText: { color: '#6B7280', fontSize: 16 },
+  emptyText: { color: colors.gray500, fontSize: 16 },
 });

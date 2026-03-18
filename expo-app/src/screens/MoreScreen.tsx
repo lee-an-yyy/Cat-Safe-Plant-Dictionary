@@ -1,27 +1,33 @@
 import React from 'react';
 import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Info, Shield, HelpCircle, ChevronRight } from 'lucide-react-native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Info, FileText, Shield, HelpCircle, ChevronRight } from 'lucide-react-native';
 
 import { AppText } from '../components/AppText';
 import { AppBar } from '../components/AppBar';
 import { colors } from '../theme';
+import { APP_VERSION } from '../constants/config';
+import type { RootStackParamList } from '../navigation/types';
+
+type MenuRoute = 'ServiceInfo' | 'TermsOfService' | 'PrivacyPolicy' | 'CustomerSupport';
 
 const MENU_ITEMS = [
-  { icon: Info, label: '서비스 정보' },
-  { icon: Shield, label: '개인정보 처리방침' },
-  { icon: HelpCircle, label: '고객지원' },
-];
+  { icon: Info, label: '서비스 정보', route: 'ServiceInfo' as const },
+  { icon: FileText, label: '이용약관', route: 'TermsOfService' as const },
+  { icon: Shield, label: '개인정보 처리방침', route: 'PrivacyPolicy' as const },
+  { icon: HelpCircle, label: '고객지원', route: 'CustomerSupport' as const },
+] satisfies { icon: typeof Info; label: string; route: MenuRoute }[];
 
 const ICON_COLOR = colors.primary;
 
-export function MoreScreen() {
-  const navigation = useNavigation();
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-  const handleMenuPress = (label: string) => {
-    if (label === '서비스 정보') navigation.navigate('ServiceInfo');
-    if (label === '개인정보 처리방침') navigation.navigate('PrivacyPolicy');
-    if (label === '고객지원') navigation.navigate('CustomerSupport');
+export function MoreScreen() {
+  const navigation = useNavigation<NavigationProp>();
+
+  const handleMenuPress = (route: MenuRoute) => {
+    navigation.navigate(route);
   };
 
   return (
@@ -35,13 +41,13 @@ export function MoreScreen() {
             <Pressable
               key={item.label}
               style={styles.menuItem}
-              onPress={() => handleMenuPress(item.label)}
+              onPress={() => handleMenuPress(item.route)}
             >
               <View style={styles.menuIcon}>
                 <Icon size={24} color={ICON_COLOR} />
               </View>
               <AppText style={styles.menuLabel}>{item.label}</AppText>
-              <ChevronRight size={20} color="#9CA3AF" />
+              <ChevronRight size={20} color={colors.gray400} />
             </Pressable>
           );
         })}
@@ -49,7 +55,7 @@ export function MoreScreen() {
 
       <View style={styles.footer}>
         <AppText style={styles.footerTitle}>묘생식물대사전</AppText>
-        <AppText style={styles.footerVersion}>Version 1.0.0</AppText>
+        <AppText style={styles.footerVersion}>Version {APP_VERSION}</AppText>
         <AppText style={styles.footerCopyright}>© 2026 All rights reserved</AppText>
         <Pressable onPress={() => navigation.navigate('CreatorStory')}>
           <AppText style={styles.footerCredit}>Built & Designed by Yuan Lee</AppText>
@@ -62,7 +68,7 @@ export function MoreScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
   content: { paddingBottom: 100 },
-  menu: { paddingHorizontal: 24, paddingTop: 24 },
+  menu: { paddingHorizontal: 16, paddingTop: 24 },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -82,9 +88,10 @@ const styles = StyleSheet.create({
   menuLabel: { flex: 1, fontSize: 16, fontWeight: '500' },
   footer: {
     backgroundColor: '#fff',
-    marginHorizontal: 24,
+    marginHorizontal: 16,
     marginTop: 32,
-    padding: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 24,
     borderRadius: 24,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -94,7 +101,7 @@ const styles = StyleSheet.create({
   },
   footerTitle: { fontSize: 16, fontWeight: '600', marginBottom: 8 },
   footerVersion: { fontSize: 14, color: '#6B7280', marginBottom: 6 },
-  footerCopyright: { fontSize: 12, color: '#9CA3AF', marginBottom: 2 },
+  footerCopyright: { fontSize: 12, color: colors.gray400, marginBottom: 2 },
   footerCredit: {
     fontSize: 12,
     color: colors.neutral,

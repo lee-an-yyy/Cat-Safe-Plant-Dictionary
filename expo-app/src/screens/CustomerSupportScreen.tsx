@@ -4,8 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AppText } from '../components/AppText';
 import { AppBar } from '../components/AppBar';
 import { colors } from '../theme';
-
-const SUPPORT_EMAIL = 'meoknyong@gmail.com';
+import { SUPPORT_EMAIL } from '../constants/config';
 
 const FAQ_ITEMS = [
   {
@@ -132,7 +131,7 @@ function Bullet({ text }: { text: string }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
   scroll: { flex: 1 },
-  content: { paddingHorizontal: 24, paddingTop: 8 },
+  content: { paddingHorizontal: 16, paddingTop: 8 },
   section: { marginBottom: 28 },
   sectionTitle: {
     fontSize: 17,

@@ -3,7 +3,7 @@ import { View, Pressable, TextInput, StyleSheet, ViewStyle } from 'react-native'
 import { Search, CircleX } from 'lucide-react-native';
 
 import { AppText } from './AppText';
-import { FONT_FAMILY } from '../theme';
+import { FONT_FAMILY, colors } from '../theme';
 
 export interface SearchBarPressableProps {
   variant: 'pressable';
@@ -30,7 +30,7 @@ export function SearchBar(props: SearchBarProps) {
 
   const barContent = (
     <>
-      <Search size={20} color="#9CA3AF" style={styles.searchIcon} />
+      <Search size={20} color={colors.gray400} style={styles.searchIcon} />
       {variant === 'pressable' ? (
         <AppText style={styles.placeholder}>{placeholder}</AppText>
       ) : (
@@ -39,7 +39,7 @@ export function SearchBar(props: SearchBarProps) {
             ref={props.inputRef}
             style={styles.input}
             placeholder={placeholder}
-            placeholderTextColor="#9CA3AF"
+            placeholderTextColor={colors.gray400}
             value={props.value}
             onChangeText={props.onChangeText}
             onFocus={props.onFocus}
@@ -51,7 +51,7 @@ export function SearchBar(props: SearchBarProps) {
               hitSlop={8}
               style={styles.clearButton}
             >
-              <CircleX size={18} color="#9CA3AF" />
+              <CircleX size={18} color={colors.gray400} />
             </Pressable>
           )}
         </>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   searchIcon: { marginRight: 12 },
-  placeholder: { color: '#9CA3AF', fontSize: 16 },
+  placeholder: { color: colors.gray400, fontSize: 16 },
   input: {
     flex: 1,
     paddingVertical: 0,

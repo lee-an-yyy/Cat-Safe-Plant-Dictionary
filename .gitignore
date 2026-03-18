@@ -8,5 +8,10 @@ node_modules
 dist/
 web-build/
 
+# Environment
+.env
+.env.local
+.env.*.local
+
 # TypeScript
 *.tsbuildinfo

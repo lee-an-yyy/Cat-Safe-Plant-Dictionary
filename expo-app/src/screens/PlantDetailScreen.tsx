@@ -1,9 +1,17 @@
-import React, { useRef, useEffect } from 'react';
-import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import {
+  View,
+  ScrollView,
+  Pressable,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Bookmark, Leaf, AlertTriangle, ChevronRight } from 'lucide-react-native';
 import { getPlantById } from '../data/plantResolvers';
+import { COPYRIGHT_TEXT } from '../constants/config';
 import { plantsV22 } from '../data/plantsV22';
 import {
   getSafetyLevelV22,
@@ -39,6 +47,7 @@ export function PlantDetailScreen() {
   const { toggleSavedPlant, isPlantSaved } = useSavedPlants();
   const { showEnglish, setShowEnglish } = useEnglishOriginalPreference();
   const genusScrollRef = useRef<ScrollView>(null);
+  const [showAITooltip, setShowAITooltip] = useState(false);
 
   // 속(genus) 상세 페이지 - 열릴 때 스크롤을 맨 위로
   useEffect(() => {
@@ -46,6 +55,8 @@ export function PlantDetailScreen() {
       genusScrollRef.current?.scrollTo({ y: 0, animated: false });
     }
   }, [genus]);
+
+  const toggleAITooltip = () => setShowAITooltip((prev) => !prev);
 
   // 속(genus) 상세 페이지
   if (genus?.trim()) {
@@ -128,9 +139,7 @@ export function PlantDetailScreen() {
               본 정보는 <AppText style={styles.footerDisclaimerBold}>ASPCA</AppText>의 데이터를
               바탕으로 제공됩니다.
             </AppText>
-            <AppText style={styles.footerCopyright}>
-              © 2024 PetPlant Safety. All rights reserved.
-            </AppText>
+            <AppText style={styles.footerCopyright}>{COPYRIGHT_TEXT}</AppText>
           </View>
         </View>
       </ScrollView>
@@ -236,7 +245,27 @@ export function PlantDetailScreen() {
 
           {/* 주요 증상 - 증상 칩 */}
           <View style={styles.card}>
-            <AppText style={styles.sectionTitle}>주요 증상</AppText>
+            <TouchableOpacity
+              style={[styles.titleWithIcon, styles.sectionTitleRow]}
+              onPress={toggleAITooltip}
+              activeOpacity={0.7}
+            >
+              <AppText style={[styles.sectionTitle, styles.sectionTitleInline]}>
+                주요 증상
+              </AppText>
+              <View pointerEvents="none">
+                <MaterialCommunityIcons name="information" size={18} color="#A3A3A3" />
+              </View>
+            </TouchableOpacity>
+            {showAITooltip && (
+              <View style={styles.tooltipBox}>
+                <AppText style={styles.tooltipTitle}>AI 번역 안내</AppText>
+                <AppText style={styles.tooltipMessage}>
+                  식물의 이름과 주요 증상 등 일부 정보는 인공지능(AI)을 통해 번역 및 요약되었습니다.
+                  원문과 미세한 차이가 있을 수 있으니 참고용으로만 확인해 주세요.
+                </AppText>
+              </View>
+            )}
             {symptoms.length > 0 ? (
               <View style={styles.chipRow}>
                 {symptoms.map((s, i) => (
@@ -332,14 +361,12 @@ export function PlantDetailScreen() {
           <View style={styles.footer}>
             <AppText style={styles.footerDisclaimer}>
               본 앱의 정보는 <AppText style={styles.footerDisclaimerBold}>ASPCA</AppText> 원문
-              데이터를 번역 및 가공하여 참고용으로만 제공되며, 수의학적 진단이나 전문적인 의료
-              조언을 대신할 수 없습니다. 식물에 의한 중독 증상은 건강 상태나 섭취량에 따라 다를 수
-              있으므로, 의심 증상 발생 시 즉시 수의사와 상담하십시오. 정보의 번역 오류나 지연에 대해
-              당사는 법적 책임을 지지 않습니다.
+              데이터를 바탕으로 제공됩니다. 식물명과 증상 등의 정보는 인공지능(AI)을 활용하여 번역 및
+              요약되었으므로, 수의학적 진단이나 전문적인 의료 조언을 대신할 수 없습니다. 식물에 의한
+              중독 증상은 건강 상태나 섭취량에 따라 다를 수 있으므로, 의심 증상 발생 시 즉시 수의사와
+              상담하십시오. 정보의 번역 오류에 대해 당사는 법적 책임을 지지 않습니다.
             </AppText>
-            <AppText style={styles.footerCopyright}>
-              © 2026 PetPlant Safety. All rights reserved.
-            </AppText>
+            <AppText style={styles.footerCopyright}>{COPYRIGHT_TEXT}</AppText>
           </View>
         </View>
       </ScrollView>
@@ -367,6 +394,25 @@ export function PlantDetailScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
+  tooltipBox: {
+    backgroundColor: '#F3F4F6',
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: '#6B7280',
+  },
+  tooltipTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 6,
+  },
+  tooltipMessage: {
+    fontSize: 13,
+    lineHeight: 20,
+    color: '#4B5563',
+  },
   flex1: { flex: 1 },
   content: { paddingBottom: 48 },
   appBarOverlay: {
@@ -402,12 +448,13 @@ const styles = StyleSheet.create({
   bookmarkButtonOverlayActive: {
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  body: { paddingHorizontal: 24, marginTop: -24 },
+  body: { paddingHorizontal: 16, marginTop: -24 },
   bodyNoHero: { marginTop: 24 },
   card: {
     backgroundColor: '#fff',
     borderRadius: 24,
-    padding: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 24,
     marginBottom: 24,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -571,6 +618,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   sectionTitle: { fontSize: 18, fontWeight: '600', marginBottom: 12 },
+  sectionTitleInline: { marginBottom: 0 },
+  titleWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  iconButton: {
+    marginLeft: 2,
+    padding: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sectionTitleRow: {
+    marginBottom: 12,
+  },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

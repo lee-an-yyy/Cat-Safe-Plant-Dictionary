@@ -6,9 +6,7 @@ import { WebView } from 'react-native-webview';
 import { AppBar } from '../components/AppBar';
 import { AppText } from '../components/AppText';
 import { colors } from '../theme';
-
-const TERMS_URL =
-  'https://www.notion.so/Terms-of-Service-30f894bc9b408050bab4e46f89efd214?source=copy_link';
+import { TERMS_OF_SERVICE_URL } from '../constants/config';
 
 export function TermsOfServiceScreen() {
   const navigation = useNavigation();
@@ -48,7 +46,7 @@ export function TermsOfServiceScreen() {
   }, []);
 
   const handleOpenInBrowser = useCallback(() => {
-    Linking.openURL(TERMS_URL);
+    Linking.openURL(TERMS_OF_SERVICE_URL);
   }, []);
 
   // React Native WebView는 웹 플랫폼을 지원하지 않음 → 새 탭에서 열기
@@ -74,7 +72,7 @@ export function TermsOfServiceScreen() {
       <View style={styles.webviewWrapper}>
         <WebView
           ref={webViewRef as React.RefObject<WebView>}
-          source={{ uri: TERMS_URL }}
+          source={{ uri: TERMS_OF_SERVICE_URL }}
           style={styles.webview}
           onLoadProgress={handleLoadProgress}
           onNavigationStateChange={handleNavigationStateChange}
@@ -111,7 +109,8 @@ const styles = StyleSheet.create({
   },
   webFallback: {
     flex: 1,
-    padding: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 24,
     justifyContent: 'center',
     alignItems: 'center',
   },

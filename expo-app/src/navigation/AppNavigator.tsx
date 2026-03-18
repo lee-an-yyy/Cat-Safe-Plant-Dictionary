@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, Bookmark, MoreHorizontal } from 'lucide-react-native';
@@ -100,12 +101,26 @@ export function AppNavigator() {
   const [hasAgreed, setHasAgreed] = useState<boolean | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     AsyncStorage.getItem(STORAGE_KEYS.DISCLAIMER_AGREED)
-      .then((val) => setHasAgreed(val === 'true'))
-      .catch(() => setHasAgreed(false));
+      .then((val) => {
+        if (!cancelled) setHasAgreed(val === 'true');
+      })
+      .catch(() => {
+        if (!cancelled) setHasAgreed(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  if (hasAgreed === null) return null;
+  if (hasAgreed === null) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
 
   const initialRoute = hasAgreed ? 'Main' : 'OnboardingDisclaimer';
 
@@ -127,3 +142,12 @@ export function AppNavigator() {
     </RootStack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.gray50,
+  },
+});

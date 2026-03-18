@@ -17,8 +17,10 @@ export function SavedPlantsProvider({ children }: { children: ReactNode }) {
 
   // Load from AsyncStorage on mount
   useEffect(() => {
+    let cancelled = false;
     AsyncStorage.getItem(STORAGE_KEYS.SAVED_PLANTS)
       .then((saved) => {
+        if (cancelled) return;
         if (saved) {
           try {
             setSavedPlantIds(JSON.parse(saved));
@@ -28,7 +30,12 @@ export function SavedPlantsProvider({ children }: { children: ReactNode }) {
         }
         setIsLoaded(true);
       })
-      .catch(() => setIsLoaded(true));
+      .catch(() => {
+        if (!cancelled) setIsLoaded(true);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Persist to AsyncStorage whenever savedPlantIds changes (after initial load)
