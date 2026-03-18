@@ -49,7 +49,7 @@ export function OnboardingDisclaimerScreen() {
         {/* 상단: 아이콘 + 제목 */}
         <View style={styles.header}>
           <View style={styles.iconWrap}>
-            <ShieldAlert size={48} color="#D97706" strokeWidth={2} />
+            <ShieldAlert size={48} color="#27AE60" strokeWidth={2} />
           </View>
           <AppText style={styles.title}>서비스 이용 전 반드시 읽어주세요</AppText>
 
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: 'rgba(217, 119, 6, 0.15)',
+    backgroundColor: 'rgba(39, 174, 96, 0.15)',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
     lineHeight: 28,
   },
   disclaimerBox: {
-    backgroundColor: '#FFF7ED',
+    backgroundColor: '#ECFDF5',
     borderWidth: 1.5,
-    borderColor: '#FDBA74',
+    borderColor: '#86EFAC',
     borderRadius: 16,
     padding: 20,
     marginBottom: 40,
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   disclaimerIntro: {
     fontSize: 17,
     lineHeight: 26,
-    color: '#9A3412',
+    color: '#166534',
     fontWeight: '600',
     marginBottom: 18,
   },
@@ -152,14 +152,14 @@ const styles = StyleSheet.create({
   disclaimerLabel: {
     fontSize: 15,
     lineHeight: 22,
-    color: '#9A3412',
+    color: '#166534',
     fontWeight: '600',
     marginBottom: 4,
   },
   disclaimerBody: {
     fontSize: 15,
     lineHeight: 22,
-    color: '#9A3412',
+    color: '#166534',
     opacity: 0.95,
   },
   footer: {
