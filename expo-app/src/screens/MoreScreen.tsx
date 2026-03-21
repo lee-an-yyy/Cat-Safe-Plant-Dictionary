@@ -57,9 +57,7 @@ export function MoreScreen() {
         <AppText style={styles.footerTitle}>묘생식물대사전</AppText>
         <AppText style={styles.footerVersion}>Version {APP_VERSION}</AppText>
         <AppText style={styles.footerCopyright}>© 2026 All rights reserved</AppText>
-        <Pressable onPress={() => navigation.navigate('CreatorStory')}>
-          <AppText style={styles.footerCredit}>Built & Designed by Yuan Lee</AppText>
-        </Pressable>
+        <AppText style={styles.footerCredit}>Built & Designed by Yuan Lee</AppText>
       </View>
     </ScrollView>
   );
@@ -104,7 +102,6 @@ const styles = StyleSheet.create({
   footerCopyright: { fontSize: 12, color: colors.gray400, marginBottom: 2 },
   footerCredit: {
     fontSize: 12,
-    color: colors.neutral,
-    textDecorationLine: 'underline',
+    color: colors.gray400,
   },
 });
