@@ -13,7 +13,11 @@
       "backgroundColor": "#43AB7C"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yuanlee.myosaeng",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +31,14 @@
       "favicon": "./assets/app_logo.png"
     },
     "plugins": [
-      "expo-font"
-    ]
+      "expo-font",
+      "expo-web-browser"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1535fbb1-245f-4495-97b7-047d6fc0384c"
+      }
+    },
+    "owner": "yuannn"
   }
 }

@@ -11,7 +11,8 @@
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "submit:ios": "eas submit --platform ios --profile production --latest"
   },
   "dependencies": {
     "@expo-google-fonts/ibm-plex-sans-kr": "^0.4.1",
@@ -23,6 +24,7 @@
     "expo": "~54.0.32",
     "expo-font": "~14.0.11",
     "expo-status-bar": "~3.0.9",
+    "expo-web-browser": "~15.0.10",
     "lucide-react-native": "^0.575.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
@@ -40,6 +42,7 @@
     "@types/react": "~19.1.0",
     "@typescript-eslint/eslint-plugin": "^8.56.0",
     "@typescript-eslint/parser": "^8.56.0",
+    "eas-cli": "^18.4.0",
     "eslint": "^9.39.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
