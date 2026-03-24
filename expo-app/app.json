@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "expo-app",
+    "name": "묘생식물대사전",
     "slug": "expo-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,7 +16,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.yuanlee.myosaeng",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDisplayName": "묘생식물대사전"
       }
     },
     "android": {
